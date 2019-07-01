@@ -10075,7 +10075,7 @@ yargs@^12.0.2:
     y18n "^3.2.1 || ^4.0.0"
     yargs-parser "^11.1.1"
 
-zustand@^1.0.1:
-  version "1.0.1"
-  resolved "https://registry.yarnpkg.com/zustand/-/zustand-1.0.1.tgz#5907521e8f3690e0c4776d27f199cfca915d0d2f"
-  integrity sha512-i2h+lyy9XKZYegbrfOD63FOccr/Ojkmvz33TDGCQonxRHIjuReBKnaiCCKnxQ2hFvqFULRy8hGGkBgrVjG7USw==
+zustand@^1.0.2:
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/zustand/-/zustand-1.0.2.tgz#03b22d39a4cb4449c0fd9db2999e71f5ef8956af"
+  integrity sha512-Mi7aqoG1u+oQ3JaLuYrMv9idzLGUVR04lqnlP0br5cYQkfaX3Hc61i4VAhkh4GXIr2sZRLV1hoHo+LnvJqlNmA==

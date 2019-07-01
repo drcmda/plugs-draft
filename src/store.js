@@ -2,7 +2,7 @@ import guid from 'uuid'
 import create from 'zustand'
 import produce from 'immer'
 
-const store = set => ({
+const store = (set, get, api) => ({
   plugins: {
     active: null,
     map: {},
@@ -20,7 +20,7 @@ const store = set => ({
       })
     },
     async createPlugin(def, defaultId) {
-      const { description, Root = () => null, View = () => null } = await def
+      const { description, Root, View = () => null } = await def
       const id = defaultId !== void 0 ? defaultId : guid()
       set(state => {
         state.plugins.ids.push(id)
@@ -54,7 +54,7 @@ const usePlugin = (id, sel = t => t) => {
 
 const useActivePlugin = (sel = t => t) => {
   const activePluginId = useStore(state => state.plugins.active)
-  return useStore(state => activePluginId && sel(state.plugins.map[activePluginId]))
+  return useStore(state => state.plugins.map[activePluginId] && sel(state.plugins.map[activePluginId]))
 }
 
 export { useStore, usePlugin, useActivePlugin }
