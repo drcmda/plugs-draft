@@ -3,10 +3,13 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "antd": "^3.20.0",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
     "react-scripts": "3.0.1",
     "react-three-fiber": "^2.2.9",
+    "styled-components": "^4.3.2",
+    "styled-theming": "^2.2.0",
     "zustand": "^1.0.2"
   },
   "scripts": {
@@ -29,5 +32,8 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "babel-plugin-macros": "^2.6.1"
   }
 }

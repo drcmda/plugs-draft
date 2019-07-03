@@ -1,8 +1,10 @@
 import guid from 'uuid'
 import create from 'zustand'
 import produce from 'immer'
+import * as elements from './elements'
 
 const store = (set, get, api) => ({
+  elements,
   plugins: {
     active: null,
     map: {},
@@ -32,7 +34,7 @@ const store = (set, get, api) => ({
           state: description.initialState || {},
           Root,
           View,
-          set: fn => set(draft => fn(draft.plugins.map[id].state)),
+          set: fn => set(draft => void fn(draft.plugins.map[id].state)),
         }
       })
       return () =>
@@ -46,7 +48,7 @@ const store = (set, get, api) => ({
 })
 
 const immer = config => (set, get) => config(fn => set(produce(fn)), get)
-const [useStore] = create(immer(store))
+const [useStore, api] = create(immer(store))
 
 const usePlugin = (id, sel = t => t) => {
   return useStore(state => state.plugins.map[id] && sel(state.plugins.map[id]))
@@ -57,4 +59,4 @@ const useActivePlugin = (sel = t => t) => {
   return useStore(state => state.plugins.map[activePluginId] && sel(state.plugins.map[activePluginId]))
 }
 
-export { useStore, usePlugin, useActivePlugin }
+export { api, useStore, usePlugin, useActivePlugin }
