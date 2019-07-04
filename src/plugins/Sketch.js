@@ -1,12 +1,13 @@
-import React, { useRef } from 'react'
+import React, { useRef, useEffect } from 'react'
 import { useRender } from 'react-three-fiber'
-import { useStore, useActivePlugin } from '../store'
+import { useStore, useActivePlugin, getActivePlugin } from '../store'
 import * as Blend from './Blend'
 
 function Root() {
-  const { Group, Button, ButtonGroup, Input, Label, Dropdown, Slider, Checkbox, Collapse } = useStore(s => s.elements)
-  const set = useActivePlugin(state => state.set)
-  const { opacity, color } = useActivePlugin(state => state.state)
+  const { Group, Button, ButtonGroup, Input, Label, Dropdown, Slider, Checkbox, Collapse } = useStore(
+    state => state.elements,
+  )
+  const { state, set } = getActivePlugin()
   return (
     <>
       <Group>
@@ -33,13 +34,13 @@ function Root() {
       <Group>
         <Label>Dropdown</Label>
         <Dropdown
-          defaultValue={color}
+          defaultValue={state.color}
           children={['yellow', 'red', 'blue']}
           onChange={value => set(state => (state.color = value))}
         />
       </Group>
       <Slider
-        defaultValue={opacity}
+        defaultValue={state.opacity}
         min={0}
         max={1}
         step={0.1}
@@ -53,12 +54,13 @@ function Root() {
 }
 
 function View() {
-  const { state } = useActivePlugin()
+  const color = useActivePlugin(plugin => plugin.state.color)
+  const opacity = useActivePlugin(plugin => plugin.state.opacity)
   const ref = useRef()
   useRender(() => (ref.current.rotation.x += 0.05))
   return (
     <mesh ref={ref} position={[-2, 0, 0]}>
-      <meshStandardMaterial attach="material" color={state.color} transparent opacity={state.opacity} />
+      <meshStandardMaterial attach="material" color={color} transparent opacity={opacity} />
       <octahedronGeometry attach="geometry" />
     </mesh>
   )
@@ -68,7 +70,7 @@ const description = {
   name: 'Sketch',
   version: '1.0.0',
   author: 'Ledas',
-  persistent: true,
+  persistent: false,
   initialState: {
     color: 'yellow',
     opacity: 1,
