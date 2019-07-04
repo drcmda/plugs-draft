@@ -1,51 +1,8 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import ReactDOM from 'react-dom'
-import styled, { createGlobalStyle } from 'styled-components/macro'
-import { Canvas } from 'react-three-fiber'
-import { useStore, useActivePlugin } from './store'
+import { createGlobalStyle } from 'styled-components/macro'
+import App from './App'
 import 'antd/dist/antd.css'
-
-function App() {
-  const Root = useActivePlugin(state => state.Root)
-  const pluginName = useActivePlugin(state => state.name)
-  const RootView = useActivePlugin(state => state.View)
-  const actions = useStore(state => state.actions)
-
-  useEffect(() => {
-    // Plugins can be imported async
-    actions.createPlugin(import('./plugins/Sketch'), 0)
-    actions.createPlugin(import('./plugins/Blend'), 1)
-    // Activate sketch
-    actions.setActivePlugin(0)
-    // Activate blend
-    setTimeout(() => actions.setActivePlugin(1), 4000)
-    // Activate sketch, we expect state to be reset now
-    setTimeout(() => actions.setActivePlugin(0), 6000)
-  }, [])
-
-  return (
-    <>
-      <Global />
-      {/* 3D View */}
-      <Canvas>
-        <ambientLight intensity={0.5} />
-        <spotLight intensity={0.6} position={[30, 30, 50]} angle={0.2} penumbra={1} castShadow />
-        {RootView && <RootView />}
-      </Canvas>
-      {/* UI View */}
-      <Plugin name={pluginName}>{Root && <Root />}</Plugin>
-    </>
-  )
-}
-
-function Plugin({ name, children }) {
-  return (
-    <PluginFrame>
-      <div>{name}</div>
-      {children}
-    </PluginFrame>
-  )
-}
 
 const Global = createGlobalStyle`
   * {
@@ -84,18 +41,10 @@ const Global = createGlobalStyle`
   }
 `
 
-const PluginFrame = styled.div`
-  position: absolute;
-  top: 0px;
-  right: 0px;
-  margin: 40px;
-  width: 400px;
-  color: rgba(0, 0, 0, 0.75);
-  background: #dfdfdf;
-  padding: 20px;
-  border-radius: 5px;
-  display: flex;
-  flex-direction: column;
-`
-
-ReactDOM.render(<App />, document.getElementById('root'))
+ReactDOM.render(
+  <>
+    <Global />
+    <App />
+  </>,
+  document.getElementById('root'),
+)

@@ -14,7 +14,7 @@ const store = (set, get, api) => ({
     setActivePlugin(id) {
       set(state => {
         const oldActive = state.plugins.map[state.plugins.active]
-        if (oldActive) {
+        if (oldActive && !oldActive.persistent) {
           // Reset internal plugin state
           oldActive.state = oldActive.initialState
         }

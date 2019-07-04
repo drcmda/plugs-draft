@@ -1,11 +1,10 @@
-import React, { useRef, useState, useEffect } from 'react'
+import React, { useRef, useState } from 'react'
 import { useRender } from 'react-three-fiber'
 import { useStore, useActivePlugin } from '../store'
 
 function Root() {
   // Connected state
   const { Group, Button, Input, Label } = useStore(state => state.elements)
-  const set = useActivePlugin(state => state.set)
   // Local state
   const [value, setValue] = useState('test')
 
@@ -19,7 +18,6 @@ function Root() {
 }
 
 function View() {
-  const self = useActivePlugin()
   const ref = useRef()
   useRender(() => (ref.current.rotation.y += 0.05))
   return (

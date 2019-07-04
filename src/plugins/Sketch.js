@@ -4,7 +4,7 @@ import { useStore, useActivePlugin } from '../store'
 import * as Blend from './Blend'
 
 function Root() {
-  const { Group, Button, Input, Label, Dropdown, Slider, Checkbox } = useStore(state => state.elements)
+  const { Group, Button, ButtonGroup, Input, Label, Dropdown, Slider, Checkbox, Collapse } = useStore(s => s.elements)
   const set = useActivePlugin(state => state.set)
   const { opacity, color } = useActivePlugin(state => state.state)
   return (
@@ -14,6 +14,14 @@ function Root() {
         <Button>2</Button>
         <Button>3</Button>
       </Group>
+      <ButtonGroup>
+        <Button>a</Button>
+        <Button>b</Button>
+        <Button>c</Button>
+        <Button>d</Button>
+        <Button>e</Button>
+        <Button>f</Button>
+      </ButtonGroup>
       <Group>
         <Label>Input</Label>
         <Input />
@@ -22,11 +30,14 @@ function Root() {
         <Label>Checkbox</Label>
         <Checkbox>hello</Checkbox>
       </Group>
-      <Dropdown
-        defaultValue={color}
-        children={['yellow', 'red', 'blue']}
-        onChange={value => set(state => (state.color = value))}
-      />
+      <Group>
+        <Label>Dropdown</Label>
+        <Dropdown
+          defaultValue={color}
+          children={['yellow', 'red', 'blue']}
+          onChange={value => set(state => (state.color = value))}
+        />
+      </Group>
       <Slider
         defaultValue={opacity}
         min={0}
@@ -34,7 +45,9 @@ function Root() {
         step={0.1}
         onChange={value => set(state => (state.opacity = value))}
       />
-      <Blend.Root />
+      <Collapse header="Blend">
+        <Blend.Root />
+      </Collapse>
     </>
   )
 }
@@ -55,7 +68,7 @@ const description = {
   name: 'Sketch',
   version: '1.0.0',
   author: 'Ledas',
-  persistent: false,
+  persistent: true,
   initialState: {
     color: 'yellow',
     opacity: 1,
